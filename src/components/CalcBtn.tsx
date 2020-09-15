@@ -1,20 +1,22 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React from 'react'
+import { useRecoilState } from 'recoil'
+import { calcState } from '../atoms/atoms'
 import { calcBtnStyles } from '../styles/index'
 
 interface Props {
-    input: string
     num: string
-    setInput: Dispatch<SetStateAction<string>>
-    func: () => void
 }
 
-const CalcBtn = ({ input, num, setInput, func }: Props) => {
-    const handleClick = (input: string) => {
-        setInput(input + num)
-        func()
+const CalcBtn = ({ num }: Props) => {
+    const [input, setInput] = useRecoilState(calcState)
+
+    const handleClick = () => {
+        setInput(Object.assign({}, input, {
+            input: input.input + num
+        }))
     }
     return (
-        <button style={calcBtnStyles.btn} onClick={() => handleClick(input)}>
+        <button style={calcBtnStyles.btn} onClick={() => handleClick()}>
             {num}
         </button>
     )

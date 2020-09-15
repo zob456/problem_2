@@ -1,45 +1,18 @@
-import React, { SetStateAction, Dispatch } from 'react'
+import React from 'react'
 
 // components
 import CalcBtn from './CalcBtn'
 import ClearBtn from './ClearBtn'
 import Disp from './Disp'
+import FuncBtn from './FuncBtn'
+import EvalBtn from './EvalBtn'
 
 interface Props {
-    btns: any[],
-    setInput: Dispatch<SetStateAction<string>>
-    input: string
-    funcs: any[]
-    clear: Dispatch<SetStateAction<string>>
+    btns: any[]
 }
 
-const Calculator = ({ btns, setInput, input, funcs, clear }: Props) => {
+const Calculator = ({ btns }: Props) => {
 
-    const funcPass = (btn: string) => {
-        switch (btn) {
-            case '+':
-                return funcs[0]
-
-            case '-':
-                return funcs[1]
-
-            case '*':
-                return funcs[2]
-
-            case '/':
-                return funcs[3]
-
-            case '.':
-                return funcs[4]
-
-            case '=':
-                return funcs[5]
-
-            default:
-                break;
-
-        }
-    }
     return (
         // using inline styles since flewWrap does not come in from TSS files well
         <div style={{
@@ -51,11 +24,20 @@ const Calculator = ({ btns, setInput, input, funcs, clear }: Props) => {
             justifyContent: 'center',
             alignItems: 'center',
         }}>
-            <Disp input={input} />
-            {btns.map(btn => (
-                <CalcBtn func={() => funcPass(btn)} input={input} setInput={setInput} num={btn} key={btn} />
-            ))}
-            <ClearBtn clear={clear} />
+            <Disp />
+            <div style={{ width: '150px' }}>
+                {btns.map(btn => (
+                    <CalcBtn num={btn} key={btn} />
+                ))}
+                <EvalBtn opertator={'='} />
+            </div>
+            <div style={{ width: '50px' }}>
+                <FuncBtn opertator={'+'} />
+                <FuncBtn opertator={'-'} />
+                <FuncBtn opertator={'*'} />
+                <FuncBtn opertator={'/'} />
+            </div>
+            <ClearBtn />
         </div>
     )
 }
